@@ -10,7 +10,7 @@ var bars = exphbs({
 app.engine('handlebars', bars);
 app.set('view engine', 'handlebars');
 
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(require("path").join(__dirname, 'public')));
 
 //static pages

@@ -21,11 +21,11 @@ var toolbar = {
 };
 
 var grid = {
-	view:"datatable", id:"grid", select:true,
+	view:"datatable", id:"grid", select:'row',
 	autoheight:true, scroll:false,
-	editable:true,
+	editable:'cell',
 	columns:[
-		{ id:"username", header:"User Name", editor:"text"},
+		{ id:"username", header:"User Name ", editor:"text", sort: 'text'},
 		{ id:"name", header:"Real Name", editor:"text"},
 		{ id:"email", header:"Email", width: 150, editor:"text"},
 		{ id:"age", header:"Age", width: 45, editor:"text"},
