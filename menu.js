@@ -12,7 +12,12 @@ module.exports = function(req){
     { value:"Form", data:[
       { href:'/form', value:"Loading and Saving" },
       { href:'/form-uploading', value:"File Uploading" }
-    ]}
+    ]},
+    {
+      value: "test ", data: [
+        {href: '/customers', value:'Customers'}
+      ]
+    }
   ];
 
   for (var i=0; i<menu.length; i++)

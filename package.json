@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
+    "dev": "nodemon index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -29,5 +30,8 @@
     "mongoskin": "^2.1.0",
     "mysql2": "^1.7.0",
     "sequelize": "^5.21.1"
+  },
+  "devDependencies": {
+    "mysql": "^2.18.1"
   }
 }

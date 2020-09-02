@@ -1,0 +1,49 @@
+<h3>List of customers </h3>
+<p>Show data using webix ui</p>
+<div id='grid-container'></div>
+{{!-- Chen script webix // data table --}}
+<script>
+
+webix.i18n.parseFormat = "%c";
+webix.i18n.setLocale();
+
+var grid = {
+    view: 'datatable', id:'tb_customer', select: 'row',
+    autoheight: true, scroll: true,
+    //editable: 'cell',
+    columns: [
+        {id:'name', header:'Name', editor: 'text', sort:'text'},
+        {id:'email', header:'Email', editor:'text',sort:'text',fillspace: true},
+        {id:'phone', header:'Phone',sort:'text'},
+        {id: 'status', header:'Status', sort:'text'}
+    ],
+    url: '/customers/data'
+}
+
+var form = {
+    view: 'form', id:'form-customer',
+    autoheight: true, 
+    elements: [
+        {view:'text', label:'Name', name:'name'},
+        {view: 'text',label:'Email', name:'email'},
+        {view: 'text',label:'Phone', name:'phone'},
+        {
+            view:"select", value: 1, label:"Status", options:[
+                { "id":1, "value":"Gold" },
+                { "id":2, "value":"Silver" },
+                {"id": 3, 'value':'Platinum'}
+            ]
+        }
+    ],
+
+}
+
+webix.ui({
+    autowidth: true , type:'space',
+    container : 'grid-container',
+    cols :[
+        grid, { view:"resizer" }, form
+    ]
+})
+
+</script>

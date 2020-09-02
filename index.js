@@ -25,6 +25,8 @@ app.get('/form', 		   (req, res) => res.render('form', 		menu(req) ));
 app.get('/form-combo', 	   (req, res) => res.render('form-combo', 	menu(req) ));
 app.get('/form-uploading', (req, res) => res.render('form-uploading', menu(req) ));
 
+app.get('/customers', (req, res)=> res.render('customers',menu(req)))
+
 //CRUD handlers
 var form = require("./controllers/form");
 app.get('/form/data/:recordId', form.getData);
@@ -44,5 +46,9 @@ app.get("/grid/data-dynamic", dyngrid.getData);
 var tree = require("./controllers/tree");
 app.get('/tree/data', tree.getAll);
 app.get('/tree/data-dynamic', tree.getLevel);
+
+var customer = require('./controllers/grid-temp0')
+app.get('/customers/data', customer.getAll)
+
 
 app.listen(3000);
