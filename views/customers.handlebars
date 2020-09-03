@@ -4,8 +4,8 @@
 {{!-- Chen script webix // data table --}}
 <script>
 
-webix.i18n.parseFormat = "%c";
-webix.i18n.setLocale();
+// webix.i18n.parseFormat = "%c";
+// webix.i18n.setLocale(); 
 
 var grid = {
     view: 'datatable', id:'tb_customer', select: 'row',
@@ -15,10 +15,19 @@ var grid = {
         {id:'name', header:'Name', editor: 'text', sort:'text'},
         {id:'email', header:'Email', editor:'text',sort:'text',fillspace: true},
         {id:'phone', header:'Phone',sort:'text'},
-        {id: 'status', header:'Status', sort:'text'}
+        {id: 'status', header:'Status'}
     ],
     url: '/customers/data'
 }
+
+var data =  new webix.DataCollection({
+    data:[
+        { id:1, value:"Gold" },
+        { id:2, value:"Silver" },
+        { id:3, value:'Platinum'},
+        { id:4, value: 'Copper'}
+    ]
+})
 
 var form = {
     view: 'form', id:'form-customer',
@@ -28,10 +37,15 @@ var form = {
         {view: 'text',label:'Email', name:'email'},
         {view: 'text',label:'Phone', name:'phone'},
         {
-            view:"select", value: 1, label:"Status", options:[
-                { "id":1, "value":"Gold" },
-                { "id":2, "value":"Silver" },
-                {"id": 3, 'value':'Platinum'}
+            view:"richselect",name:'status', label:"Status", options:[
+
+            ]
+        },
+        {
+            cols: [
+                {view: 'button', value: 'Update', css: "button_success"},
+                {view: 'button', value: 'Unselect', css: 'webix_primary'},
+                {view: 'button', value: 'Delete', css: 'webix_danger'}
             ]
         }
     ],
@@ -45,5 +59,9 @@ webix.ui({
         grid, { view:"resizer" }, form
     ]
 })
-
+//$$('form-customer').bind($$('tb_customer'))
+$$("tb_customer").attachEvent("onAfterSelect", function(id){
+    $$("form-customer").setValues( $$("tb_customer").getItem(id) );
+});
+$$("form-customer").elements.status.getPopup().getList().sync(data);
 </script>
