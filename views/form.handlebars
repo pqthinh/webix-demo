@@ -2,7 +2,8 @@
 <p>To save data, just use webix.ajax and form.getValues</p>
 <div id='form-container'></div>
 <script>
-
+webix.i18n.parseFormat = "%c";
+webix.i18n.setLocale();
 var list = {
 	view:"list", id:"mylist",
 	autoheight:true, select:true,

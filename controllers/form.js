@@ -3,11 +3,11 @@ var db = require('../db');
 
 module.exports = {
 	getData: function(req, res){
-		// db.User.findByPk(req.params.recordId).then(data => res.json(data));
-		let id = req.params.recordId;
-		let sql = `select * from users where id = ?`;
-		let result = db.query(sql, id);
-		res.json(result);
+		db.User.findByPk(req.params.recordId).then(data => res.json(data));
+		// let id = req.params.recordId;
+		// let sql = `select * from users where id = ?`;
+		// let result = db.query(sql, id);
+		// res.json(result);
 	},
 	saveData: function(req, res){
 		db.User.findByPk(req.body.id)

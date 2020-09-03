@@ -2,3 +2,7 @@
     background: rgb(118, 212, 118);
     color: #fff
 }
+
+.button_success .webix_el_box .webix_button:hover{
+    background: rgb(69, 117, 69);
+}

@@ -1,6 +1,8 @@
 <p>File upload goes in two steps. First a file is uploaded to the server side and the server side returns a json object with the file ID ( it can be the file url if you wish ). After that the form can be saved. The uploader field will provide the ID returned on the previous step, not the file itself.</p>
 <div id='form-container'></div>
 <script>
+webix.i18n.parseFormat = "%c";
+webix.i18n.setLocale();
 var form = webix.ui({
 	view:"form",
 	width: 640,

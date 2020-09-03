@@ -4,8 +4,8 @@
 {{!-- Chen script webix // data table --}}
 <script>
 
-// webix.i18n.parseFormat = "%c";
-// webix.i18n.setLocale(); 
+webix.i18n.parseFormat = "%c";
+webix.i18n.setLocale();
 
 var grid = {
     view: 'datatable', id:'tb_customer', select: 'row',
@@ -43,9 +43,11 @@ var form = {
         },
         {
             cols: [
-                {view: 'button', value: 'Update', css: "button_success"},
-                {view: 'button', value: 'Unselect', css: 'webix_primary'},
+                {view: 'button', value: 'Add', css:'button_success', click: add},
+                {view: 'button', value: 'Update', css: "webix_primary"},
+                {view: 'button', value: 'Unselect', css: '', onclick: unSelect},
                 {view: 'button', value: 'Delete', css: 'webix_danger'}
+                
             ]
         }
     ],
@@ -64,4 +66,13 @@ $$("tb_customer").attachEvent("onAfterSelect", function(id){
     $$("form-customer").setValues( $$("tb_customer").getItem(id) );
 });
 $$("form-customer").elements.status.getPopup().getList().sync(data);
+
+function add() {
+    data = this.getFormView().getValues();
+    console.log(data)
+}
+
+function unSelect(id) {
+    $$('tb_customer').unselect(id);
+}
 </script>
