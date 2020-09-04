@@ -9,7 +9,7 @@ const conn = mysql.createConnection({
 
 conn.connect((err)=>{
     if(err) throw err
-    console.log('Connected to database')
+    console.log('Connected to database mysql . Database: \'test\'')
 })
 
 module.exports = conn

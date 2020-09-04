@@ -15,6 +15,7 @@ var grid = {
         {id:'name', header:'Name', editor: 'text', sort:'text'},
         {id:'email', header:'Email', editor:'text',sort:'text',fillspace: true},
         {id:'phone', header:'Phone',sort:'text'},
+        {id: 'address', header:'Address'},
         {id: 'status', header:'Status'}
     ],
     url: '/customers/data'
@@ -36,6 +37,7 @@ var form = {
         {view:'text', label:'Name', name:'name'},
         {view: 'text',label:'Email', name:'email'},
         {view: 'text',label:'Phone', name:'phone'},
+        {view:'text', label:'Address', name:'address'},
         {
             view:"richselect",name:'status', label:"Status", options:[
 
@@ -44,9 +46,9 @@ var form = {
         {
             cols: [
                 {view: 'button', value: 'Add', css:'button_success', click: add},
-                {view: 'button', value: 'Update', css: "webix_primary"},
-                {view: 'button', value: 'Unselect', css: '', onclick: unSelect},
-                {view: 'button', value: 'Delete', css: 'webix_danger'}
+                {view: 'button', value: 'Update', css: "webix_primary", click: updateData},
+                {view: 'button', value: 'Unselect', css: '', click: unSelect},
+                {view: 'button', value: 'Delete', css: 'webix_danger', click: deleteData}
                 
             ]
         }
@@ -68,11 +70,49 @@ $$("tb_customer").attachEvent("onAfterSelect", function(id){
 $$("form-customer").elements.status.getPopup().getList().sync(data);
 
 function add() {
-    data = this.getFormView().getValues();
+    data = this.getFormView().getValues()
+    delete data.id 
     console.log(data)
+    webix.ajax().post('/customers/data', data).then(()=> webix.message('Saved !'))
+    $$("tb_customer").add(data,0)
 }
 
-function unSelect(id) {
-    $$('tb_customer').unselect(id);
+function updateData() {
+    if(!$$('tb_customer')) return
+    var custom = $$('tb_customer').getSelectedId()
+    if(!custom) {
+        webix.message({text: 'Not selected item customer', type:'error'})
+        return
+    }
+    console.log(custom)
+    row = custom.row
+    //id = row.id
+    data = this.getFormView().getValues()
+    webix.ajax().put('/customers/data/:id', data).then((webix.message({text: 'Updated!!!', type: 'success'})))
+    $$("tb_customer").updateItem(row, data)
+}
+
+function unSelect() {
+    $$('tb_customer').unselect($$('tb_customer').getSelectedId());
+    $$('form-customer').clear()
+}
+
+function deleteData() {
+    if(!$$('tb_customer')) {
+        webix.message({text: 'Not selected item customer', type:'error'})
+        return
+    }
+    var custom = $$('tb_customer').getSelectedId()
+    if(!custom) {
+        webix.message({text: 'Not selected item customer', type:'error'})
+        return
+    }
+    console.log(custom)
+    row = custom.row
+    id = row.id
+    //data = this.getFormView().getValues()
+    webix.ajax().del('/customers/data/:id', id).then((webix.message({text: 'deleted!!!', type: 'success'})))
+    $$("tb_customer").remove(row)
+    $$('form-customer').clear()
 }
 </script>

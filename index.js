@@ -49,6 +49,7 @@ app.get('/tree/data-dynamic', tree.getLevel);
 
 var customer = require('./controllers/grid-temp0')
 app.get('/customers/data', customer.getAll)
-
-
+app.post('/customers/data', customer.addData)
+app.put('/customers/data/:id', customer.update)
+app.delete('/customers/data/:id', customer.delete)
 app.listen(3000);
