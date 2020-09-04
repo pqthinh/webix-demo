@@ -51,7 +51,7 @@ var form = {
     elements: [
         {view:'text', label:'Name', name:'name'},
         {view: 'text',label:'Email', name:'email'},
-        {view: 'text',label:'Phone', name:'phone'},
+        {view: 'text',label:'Phone', name:'phone', attributes:{ maxlength:10 }},
         {view:'text', label:'Address', name:'address'},
         {
             view:"richselect",name:'status', label:"Status", options:[
@@ -68,7 +68,15 @@ var form = {
             ]
         }
     ],
-
+    rules: {
+        "name": webix.rules.isNotEmpty,
+        "phone": webix.rules.isNotEmpty,
+        "email": webix.rules.isNotEmpty,
+        "address": webix.rules.isNotEmpty,
+        "phone": webix.rules.isNumber,
+        "email": webix.rules.isEmail,
+        "status": webix.rules.isChecked
+    }
 }
 
 webix.ui({
@@ -88,7 +96,20 @@ $$("tb_customer").attachEvent("onAfterSelect", function(id){
 });
 $$("form-customer").elements.status.getPopup().getList().sync(data);
 
+function check() {
+    var form = $$('form-customer');
+    if (form.validate()) {
+        webix.message("All is correct", 'success');
+        return true
+    }
+    webix.message({ type:"error", text:"Form data is invalid" });
+    return false
+}
 function add() {
+    if(!check()) {
+        webix.message('Invalid data in form', 'error')
+        return
+    }
     data = this.getFormView().getValues()
     delete data.id 
     console.log(data)
@@ -104,6 +125,10 @@ function add() {
 }
 
 function updateData() {
+    if(!check()) {
+        webix.message('Invalid data in form', 'error')
+        return
+    }
     if(!$$('tb_customer')) return
     var custom = $$('tb_customer').getSelectedId()
     if(!custom) {
