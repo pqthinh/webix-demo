@@ -46,7 +46,8 @@ module.exports = {
     delete: (req, res)=>{
         let sql = 'delete from customer where id=?'
         let id = req.params.id
-        db.query(sql,id, (err)=>{
+        console.log(id)
+        db.query(sql,[id], (err)=>{
             if(err) throw err
             res.json('Success!!!')
         })

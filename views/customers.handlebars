@@ -12,10 +12,10 @@ var grid = {
     autoheight: true, scroll: true,
     //editable: 'cell',
     columns: [
-        {id:'name', header:'Name', editor: 'text', sort:'text'},
+        {id:'name', header:['Name', {content:'textFilter'}], editor: 'text', sort:'text'},
         {id:'email', header:'Email', editor:'text',sort:'text',fillspace: true},
         {id:'phone', header:'Phone',sort:'text'},
-        {id: 'address', header:'Address'},
+        {id: 'address', header:['Address',{content:'textFilter'}]},
         {id: 'status', header:'Status'}
     ],
     url: '/customers/data'
@@ -33,6 +33,7 @@ var data =  new webix.DataCollection({
 var form = {
     view: 'form', id:'form-customer',
     autoheight: true, 
+    columnWidth:50,
     elements: [
         {view:'text', label:'Name', name:'name'},
         {view: 'text',label:'Email', name:'email'},
@@ -75,6 +76,7 @@ function add() {
     console.log(data)
     webix.ajax().post('/customers/data', data).then(()=> webix.message('Saved !'))
     $$("tb_customer").add(data,0)
+    unSelect()
 }
 
 function updateData() {
@@ -86,9 +88,10 @@ function updateData() {
     }
     console.log(custom)
     row = custom.row
-    //id = row.id
+    id = custom.id
+    console.log(id)
     data = this.getFormView().getValues()
-    webix.ajax().put('/customers/data/:id', data).then((webix.message({text: 'Updated!!!', type: 'success'})))
+    webix.ajax().put(`/customers/data/:${id}`, data).then((webix.message({text: 'Updated!!!', type: 'success'})))
     $$("tb_customer").updateItem(row, data)
 }
 
@@ -109,9 +112,9 @@ function deleteData() {
     }
     console.log(custom)
     row = custom.row
-    id = row.id
+    id = custom.id
     //data = this.getFormView().getValues()
-    webix.ajax().del('/customers/data/:id', id).then((webix.message({text: 'deleted!!!', type: 'success'})))
+    webix.ajax().del(`/customers/data/${id}`, id).then((webix.message({text: 'deleted!!!', type: 'success'})))
     $$("tb_customer").remove(row)
     $$('form-customer').clear()
 }
