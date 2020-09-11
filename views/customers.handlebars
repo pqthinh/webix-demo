@@ -150,21 +150,30 @@ function unSelect() {
 }
 
 function deleteData() {
-    if(!$$('tb_customer')) {
-        webix.message({text: 'Not selected item customer', type:'error'})
-        return
-    }
-    var custom = $$('tb_customer').getSelectedId()
-    if(!custom) {
-        webix.message({text: 'Not selected item customer', type:'error'})
-        return
-    }
-    console.log(custom)
-    row = custom.row
-    id = custom.id
-    //data = this.getFormView().getValues()
-    webix.ajax().del(`/customers/data/${id}`, id).then((webix.message({text: 'deleted!!!', type: 'success'})))
-    $$("tb_customer").remove(row)
-    $$('form-customer').clear()
+    webix.confirm('Delete ?')
+        .then(
+            (result)=> {
+                if(!$$('tb_customer')) {
+                    webix.message({text: 'Not selected item customer', type:'error'})
+                    return
+                }
+                var custom = $$('tb_customer').getSelectedId()
+                if(!custom) {
+                    webix.message({text: 'Not selected item customer', type:'error'})
+                    return
+                }
+                console.log(custom)
+                row = custom.row
+                id = custom.id
+                //data = this.getFormView().getValues()
+                webix.ajax().del(`/customers/data/${id}`, id).then((webix.message({text: 'deleted!!!', type: 'success'})))
+                $$("tb_customer").remove(row)
+                $$('form-customer').clear()     
+            }
+        )
+        .fail(
+            webix.message('Not delete', 'warnning')
+        )
+    
 }
 </script>
